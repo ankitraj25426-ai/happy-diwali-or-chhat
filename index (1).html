@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎇 Happy Diwali & Chhath Puja - Ankit YT 🎆</title>
+<style>
+body{
+  margin:0;
+  padding:0;
+  font-family:'Poppins',sans-serif;
+  background: linear-gradient(to bottom,#0a0a0a,#1a1a1a);
+  color:white;
+  text-align:center;
+  overflow-x:hidden;
+}
+h1{margin-top:30px;font-size:2.5rem;text-shadow:0 0 25px gold;}
+input{padding:10px;border-radius:10px;border:none;font-size:16px;width:80%;max-width:350px;}
+button{padding:12px 25px;border:none;border-radius:25px;cursor:pointer;font-size:16px;background:gold;color:black;margin:8px;box-shadow:0 0 15px gold;transition:0.3s;}
+button:hover{background:orange;box-shadow:0 0 25px orange;}
+.diya{width:120px;height:80px;background:sienna;border-radius:50%/30%;margin:30px auto;position:relative;box-shadow:0 0 25px #ff9933;}
+.flame{position:absolute;top:-60px;left:50%;transform:translateX(-50%);width:25px;height:60px;background: radial-gradient(circle, gold, orange, red);border-radius:50%;display:none;animation:flicker 0.15s infinite;}
+@keyframes flicker{0%,100%{transform:translateX(-50%) scale(1);opacity:0.9;}50%{transform:translateX(-50%) scale(1.1);opacity:1;}}
+#fireworks{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;display:none;}
+#wish{font-size:1.3rem;color:#ffcc00;text-shadow:0 0 10px orange;margin-top:20px;}
+.countdown{margin:20px auto;}
+.countdown p{font-size:1.1rem;margin:5px 0;}
+#chatbox{background: rgba(255,255,255,0.1);padding:15px;border-radius:15px;margin:20px auto;width:90%;max-width:450px;text-align:left;}
+#chat{height:250px;overflow-y:auto;margin-bottom:10px;}
+.msg{background: rgba(255,215,0,0.2);margin:5px 0;padding:8px 12px;border-radius:10px;}
+/* Festival Songs Styles */
+.songs h2{color:#ffb347;}
+audio{width:80%;margin:15px 0;border-radius:20px;}
+button.songBtn{background-color:#ffd700; border:none; padding:12px 20px; border-radius:30px; font-weight:bold; cursor:pointer; margin:10px; box-shadow:0 0 15px #ffb347;}
+button.songBtn:hover{background-color:#ffb347;}
+@media(max-width:500px){h1{font-size:2rem;} input{width:90%;}}
+</style>
+</head>
+<body>
+
+<h1>🪔 Happy Diwali & Chhath Puja 2025 🪔 <br> From <span style="color:gold;">Ankit YT</span></h1>
+
+<input type="text" id="name" placeholder="Apna naam likhiye">
+<button onclick="lightDiya()">Light the Diya</button>
+
+<div class="diya">
+  <div class="flame" id="flame"></div>
+</div>
+
+<p id="wish"></p>
+
+<canvas id="fireworks"></canvas>
+<audio id="music" src="https://cdn.pixabay.com/download/audio/2022/10/19/audio_01d25b9ac3.mp3?filename=happy-diwali-126244.mp3" controls></audio>
+
+<div class="songs">
+  <h1>🎶 Festival Songs 🎶</h1>
+  <h2>✨ Diwali Song ✨</h2>
+  <audio controls>
+    <source src="https://files.catbox.moe/0mf1gv.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <h2>🌅 Chhath Puja Song 🌅</h2>
+  <audio controls>
+    <source src="https://files.catbox.moe/reeln1.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+</div>
+
+<button onclick="shareWish()">📤 Share Wish</button>
+<button onclick="openGift()">🎁 Flipkart Gift Ideas</button>
+
+<div class="countdown">
+  <h2>🎆 Diwali Countdown 🎆</h2>
+  <p id="diwaliTime"></p>
+  <h2>🌅 Chhath Puja Countdown 🌅</h2>
+  <p id="chhathTime"></p>
+</div>
+
+<div id="chatbox">
+  <h3>💬 AI Chat</h3>
+  <div id="chat"></div>
+  <input type="text" id="userQ" placeholder="Apna sawal likhiye...">
+  <button onclick="askAI()">Ask</button>
+</div>
+
+<script>
+// ===== Fireworks & Diya =====
+const flame=document.getElementById("flame");
+const fireworks=document.getElementById("fireworks");
+const ctx=fireworks.getContext("2d");
+const music=document.getElementById("music");
+const wish=document.getElementById("wish");
+fireworks.width=window.innerWidth;
+fireworks.height=window.innerHeight;
+let particles=[];
+function createFirework(x,y){
+  for(let i=0;i<50;i++){
+    particles.push({x,y,dx:(Math.random()-0.5)*6,dy:(Math.random()-0.5)*6,life:100,color:`hsl(${Math.random()*360},100%,60%)`});
+  }
+}
+function drawFireworks(){
+  ctx.clearRect(0,0,fireworks.width,fireworks.height);
+  particles.forEach((p,i)=>{
+    ctx.fillStyle=p.color;
+    ctx.beginPath();
+    ctx.arc(p.x,p.y,3,0,Math.PI*2);
+    ctx.fill();
+    p.x+=p.dx;
+    p.y+=p.dy;
+    p.life--;
+    if(p.life<=0) particles.splice(i,1);
+  });
+  requestAnimationFrame(drawFireworks);
+}
+function lightDiya(){
+  const name=document.getElementById("name").value||"Dost";
+  flame.style.display="block";
+  fireworks.style.display="block";
+  music.play();
+  wish.innerHTML=`🎇 Happy Diwali ${name}! <br>🌅 Happy Chhath Puja — May Surya Dev bless you!`;
+  createFirework(window.innerWidth/2,window.innerHeight/2);
+  drawFireworks();
+}
+
+// ===== Share =====
+function shareWish(){
+  const text="🎇 Happy Diwali & Chhath Puja! From Ankit YT 🌞🪔";
+  const url=window.location.href;
+  if(navigator.share){navigator.share({title:"Festival Wish",text,url});}
+  else{alert("Copy and share:\n"+text+"\n"+url);}
+}
+
+// ===== Flipkart Gift =====
+function openGift(){window.open("https://www.flipkart.com/search?q=diwali+gifts","_blank");}
+
+// ===== Countdown =====
+function countdown(){
+  const diwaliDate=new Date("2025-10-20T00:00:00").getTime();
+  const chhathDate=new Date("2025-10-28T00:00:00").getTime();
+  const now=new Date().getTime();
+  document.getElementById("diwaliTime").textContent=formatTime(diwaliDate-now);
+  document.getElementById("chhathTime").textContent=formatTime(chhathDate-now);
+}
+setInterval(countdown,1000);
+function formatTime(ms){
+  if(ms<=0)return"🎉 Festival is Live!";
+  let d=Math.floor(ms/(1000*60*60*24));
+  let h=Math.floor((ms/(1000*60*60))%24);
+  let m=Math.floor((ms/(1000*60))%60);
+  let s=Math.floor((ms/1000)%60);
+  return `${d} days ${h} hrs ${m} min ${s} sec`;
+}
+
+// ===== Smart AI Chat =====
+function askAI(){
+  let q=document.getElementById("userQ").value.toLowerCase().trim();
+  q=q.replace(/[?.!,]/g,"");
+  const chat=document.getElementById("chat");
+  let a="Maaf, ye sawal samajh nahi aaya 😅";
+
+  const greetings=["hello","hi","hey","namaste","hola"];
+  if(greetings.includes(q)){
+    a="Hello! Diwali aur Chhath Puja ke bare me kya jankari jana chahte ho?";
+  } else {
+    const answers=[
+      {keywords:["diwali","kab"],answer:"Diwali 2025 me 20 October ko manai jayegi."},
+      {keywords:["chhath","kab"],answer:"Chhath Puja 2025 me 28 October ko manai jayegi."},
+      {keywords:["diwali","kya","hai"],answer:"Diwali ek Hindu tyohar hai jo Ram ji ke Ayodhya lautne ki khushi me manai jati hai. Log ghar sajate hain, diyas jalate hain, aur Devi Laxmi ki pooja karte hain."},
+      {keywords:["chhath","kya","hai"],answer:"Chhath Puja Surya Dev aur Chhathi Maiya ko arpan karne ka tyohar hai. Log arghya dete hain aur vrat rakhte hain."},
+      {keywords:["kyun","manate","diwali"],answer:"Diwali achchai ki burai par jeet ka prateek hai, Ram ji ke Ayodhya lautne par diyas jalaye gaye the."},
+      {keywords:["kyun","manate","chhath"],answer:"Chhath Puja Surya Dev aur Chhathi Maiya ki kripa ke liye manai jati hai."},
+      {keywords:["diwali","kya","karte"],answer:"Diwali me log ghar sajate hain, diyas jalate hain, Lakshmi ji ki pooja karte hain aur patakhe chalate hain."},
+      {keywords:["chhath","kya","karte"],answer:"Chhath me log Surya Dev ko arghya dete hain, vrat rakhte hain aur ghats par prarthana karte hain."},
+      {keywords:["diwali","kis","devta"],answer:"Diwali me Devi Laxmi aur Ganesh ji ki pooja hoti hai."},
+      {keywords:["chhath","kis","devta"],answer:"Chhath Puja me Surya Dev aur Chhathi Maiya ki pooja hoti hai."},
+      {keywords:["diwali","kahani"],answer:"Diwali ke din Ram ji 14 saal vanvaas ke baad Ayodhya wapas aaye the, tab logon ne diyas jalaye the. Ye achchai ki burai par jeet ka prateek hai."},
+      {keywords:["chhath","kahani"],answer:"Chhath Puja prachin kaal se surya upasana ka tyohar hai. Draupadi aur Karna bhi is puja ko karte the. Ye Surya Dev aur Chhathi Maiya ki kripa ka prateek hai."},
+      {keywords:["diwali","mahatva","importance"],answer:"Diwali achchai ki burai par jeet, Lakshmi ji ki kripa aur parivar ke sukh-shanti ka tyohar hai."},
+      {keywords:["chhath","mahatva","importance"],answer:"Chhath Puja Surya Dev aur Chhathi Maiya ki kripa aur parivar ki sehat aur samriddhi ke liye manai jati hai."}
+    ];
+
+    for(let i=0;i<answers.length;i++){
+      let match=true;
+      for(let k=0;k<answers[i].keywords.length;k++){
+        if(!q.includes(answers[i].keywords[k])){match=false;break;}
+      }
+      if(match){a=answers[i].answer;break;}
+    }
+  }
+
+  chat.innerHTML+=`<div class="msg"><b>You:</b> ${q}</div>`;
+  chat.innerHTML+=`<div class="msg"><b>AI:</b> ${a}</div>`;
+  document.getElementById("userQ").value="";
+  chat.scrollTop=chat.scrollHeight;
+}
+</script>
+
+</body>
+</html>
